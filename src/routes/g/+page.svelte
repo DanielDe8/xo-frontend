@@ -21,6 +21,8 @@
     const MIN_SCALE = 0.2
     const MAX_SCALE = 4
 
+    const INIT_OFFSET = 5
+
     var gameState = null
 
     var gameCode = ""
@@ -30,8 +32,8 @@
     var username = ""
     var opponentUsername = ""
 
-    var offsetX = 0
-    var offsetY = 0
+    var offsetX = INIT_OFFSET * CELL_S
+    var offsetY = INIT_OFFSET * CELL_S
     var scale = 1
 
     var isDragging = false
@@ -69,6 +71,7 @@
         socket.on("gameState", handleGameState)
         socket.on("preInit", handlePreInit)
         socket.on("init", handleInit)
+        socket.on("firstMoveOffset", handleFirstMoveOffset)
         socket.on("joinGameError", msg => errorText = `Join error: ${msg}`)
         socket.on("invalidMove", msg => errorText = `Invalid move: ${msg}`)
         
@@ -148,8 +151,11 @@
         socket.emit("click", JSON.stringify({ x: gameX, y: gameY }))
     }
 
-    function handleGameState(newGameState) {
-        gameState = JSON.parse(newGameState)
+    function handleGameState(newGameStateString) {
+        const newGameState = JSON.parse(newGameStateString)
+        if (newGameState != gameState) errorText = ""
+
+        gameState = newGameState
         drawAll()
     }
     function handlePreInit(code) {
@@ -166,6 +172,14 @@
         const u1 = gameState.usernames[1] || "Guest";
 
         ([username, opponentUsername] = (playerNumber == 0 ? [u0, u1] : [u1, u0]))
+
+        drawAll()
+    }
+    function handleFirstMoveOffset(offsetString) {
+        const offset = JSON.parse(offsetString)
+
+        offsetX += offset.x * CELL_S * scale
+        offsetY += offset.y * CELL_S * scale
 
         drawAll()
     }
@@ -218,7 +232,6 @@
     }
 
     function drawAll() {
-        console.log("Drawing...")
         ctx.save()
 
         ctx.setTransform(1, 0, 0, 1, 0, 0)
