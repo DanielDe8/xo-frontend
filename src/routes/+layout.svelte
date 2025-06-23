@@ -17,7 +17,7 @@
 </script>
 
 {#if isLoaded}
-    <div class="font-[Varela_Round] h-screen overflow-hidden bg-base-100">
+    <div class="font-[Varela_Round] h-screen overflow-y-auto md:overflow-hidden bg-base-100">
         <div class="navbar bg-base-200 shadow-lg px-4">
             <div class="navbar-start">
                 <a class="btn btn-ghost text-4xl" href="/">xo</a>

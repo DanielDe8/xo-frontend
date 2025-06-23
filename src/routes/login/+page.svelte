@@ -7,6 +7,6 @@
     })
 </script>
 
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<main class="min-h-screen overflow-y-auto flex items-center justify-center px-4 py-12">
     <LoginForm />
-</div>
+</main>

@@ -40,9 +40,9 @@
 </script>
 
 
-<main class="flex h-full">
+<main class="flex flex-col md:flex-row h-[100dvh] overflow-y-auto overscroll-contain">
     <!-- Left: Play section -->
-    <section class="flex-1 p-6 overflow-y-auto space-y-6">
+    <section class="flex-1 p-4 sm:p-6 space-y-6 overflow-auto min-h-[100svh]">
         <h1 class="text-5xl font-bold text-center mb-6">Play <span class="text-6xl">xo</span></h1>
 
         <div class="card bg-base-200 p-6 shadow-md">
@@ -61,13 +61,13 @@
                 <div class="flex-1">
                     <button disabled class="btn btn-accent w-full mb-3" id="joinGameClassic">⏱️ Play Classic</button>
                     <div class="flex justify-center">
-                        <span class="badge badge-outline" id="eloClassic">ELO: 2000</span>
+                        <span class="badge badge-outline" id="eloClassic">ELO: ???</span>
                     </div>
                 </div>
                 <div class="flex-1">
                     <button disabled class="btn btn-accent w-full mb-3" id="joinGameBlitz">⚡ Play Blitz</button>
                     <div class="flex justify-center">
-                        <span class="badge badge-outline content-center" id="eloBlitz">ELO: 1000</span>
+                        <span class="badge badge-outline content-center" id="eloBlitz">ELO: ???</span>
                     </div>
                 </div>
             </div>
@@ -77,10 +77,12 @@
             <h2 class="text-2xl font-semibold mb-4">🎲 Random Match</h2>
             <button on:click={ playRandom } class="btn btn-info w-full">Play Random</button>
         </div>
+
+        <div class="pb-[calc(env(safe-area-inset-bottom,0px)+4rem)]"></div>
     </section>
 
     <!-- Right: login or recent games -->
-    <section class="hidden md:block w-1/2 border-l border-base-300 p-6 overflow-y-auto">
+    <section class="hidden md:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-base-300 p-4 sm:p-6 overflow-y-auto">
         {#if $userStore}
             {#if isLoaded}
                 {#if recentGames.length > 0}

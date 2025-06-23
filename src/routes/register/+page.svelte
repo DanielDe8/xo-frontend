@@ -26,34 +26,34 @@
     })
 </script>
 
-<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-    <div class="card shadow-lg bg-base-200 p-8 w-full max-w-md">
-        <h1 class="text-3xl font-bold text-center mb-8">Register</h1>
+<main class="min-h-screen overflow-y-auto flex items-center justify-center px-4 py-12">
+	<div class="card shadow-lg bg-base-200 p-8 w-full max-w-md sm:max-w-lg">
+		<h1 class="text-3xl font-bold text-center mb-8">Register</h1>
 
-        <form class="space-y-5" on:submit|preventDefault={ register }>
-            <label class="form-control w-full">
-                <span class="label-text">Username</span>
-                <input name="username" type="text" placeholder="Player123..." class="input input-bordered w-full mb-3" required />
-            </label>
+		<form class="space-y-5" on:submit|preventDefault={register}>
+			<label class="form-control w-full">
+				<span class="label-text">Username</span>
+				<input name="username" type="text" placeholder="Player123..." class="input input-bordered w-full mb-3" required />
+			</label>
 
-            <label class="form-control w-full">
-                <span class="label-text">Email</span>
-                <input name="email" type="email" placeholder="a@b.com" class="input input-bordered w-full mb-3" required />
-            </label>
+			<label class="form-control w-full">
+				<span class="label-text">Email</span>
+				<input name="email" type="email" placeholder="a@b.com" class="input input-bordered w-full mb-3" required />
+			</label>
 
-            <label class="form-control w-full">
-                <span class="label-text">Password</span>
-                <input name="password" type="password" class="input input-bordered w-full mb-4" required />
-            </label>
+			<label class="form-control w-full">
+				<span class="label-text">Password</span>
+				<input name="password" type="password" class="input input-bordered w-full mb-4" required />
+			</label>
 
-            <input type="submit" value="Register" class="btn btn-primary w-full" />
-        </form>
+			<input type="submit" value="Register" class="btn btn-primary w-full" />
+		</form>
 
-        <p class="text-sm text-center mt-6">
-            Already have an account?
-            <a href="/login" class="link link-hover text-accent">Login</a>
-        </p>
+		<p class="text-sm text-center mt-6">
+			Already have an account?
+			<a href="/login" class="link link-hover text-accent">Login</a>
+		</p>
 
-        <span class="text-error text-sm block text-center mt-4">{ registerError }</span>
-    </div>
-</div>
+		<span class="text-error text-sm block text-center mt-4">{registerError}</span>
+	</div>
+</main>
