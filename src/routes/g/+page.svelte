@@ -43,7 +43,7 @@
     let canvas
     let ctx
 
-    let resultText
+    let statusText
     let errorText
     let turnText
 
@@ -64,6 +64,11 @@
         })
 
         ctx = canvas.getContext("2d")
+
+        requestAnimationFrame(() => {
+            resizeCanvasToDisplaySize();
+            drawAll();
+        });
 
         X_IMG.src = xImgSrc
         O_IMG.src = oImgSrc
@@ -89,7 +94,17 @@
                 code: gameInfo.gameCode || ""
             }))
         }
+
+        window.addEventListener("resize", resizeCanvasToDisplaySize);
+        return () => window.removeEventListener("resize", resizeCanvasToDisplaySize);
     })
+
+    function resizeCanvasToDisplaySize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width;
+        canvas.height = rect.height;
+        drawAll();
+    }
 
     function mouseDown(e) {
         isDragging = true
@@ -255,13 +270,13 @@
                 case -2:
                     switch (gameInfo.type) {
                         case "create":
-                            resultText = `GAME CODE: ${gameCode} - WAITING FOR OPPONENT`
+                            statusText = `GAME CODE: ${gameCode} - WAITING FOR OPPONENT`
                             break
                         case "ranked":
-                            resultText = "WAITING IN RANKED QUEUE..."
+                            statusText = "WAITING IN RANKED QUEUE..."
                             break
                         case "random":
-                            resultText = "WAITING IN RANDOM QUEUE..."
+                            statusText = "WAITING IN RANDOM QUEUE..."
                             break
                     }
                     break
@@ -269,7 +284,7 @@
                     const myChar = playerNumber == gameState.xNumber ? 'X' : 'O';
                     const opponentChar = playerNumber == gameState.xNumber ? 'O' : 'X';
 
-                    resultText = `${myChar}: ${username} vs ${opponentChar}: ${opponentUsername}`
+                    statusText = `${myChar}: ${username} vs ${opponentChar}: ${opponentUsername}`
                     break
                 default:
                     gameOver()
@@ -282,13 +297,13 @@
         } else {
             switch (gameInfo.type) {
                 case "create":
-                    resultText = "GAME CODE: " + gameCode
+                    statusText = "GAME CODE: " + gameCode
                     break
                 case "ranked":
-                    resultText = "WAITING IN RANKED QUEUE..."
+                    statusText = "WAITING IN RANKED QUEUE..."
                     break
                 case "random":
-                    resultText = "WAITING IN RANDOM QUEUE..."
+                    statusText = "WAITING IN RANDOM QUEUE..."
                     break
             }
         }
@@ -302,9 +317,9 @@
         const win = (playerNumber == gameState.xNumber ? 0 : 1) == gameState.status
         
         if (gameState.status == 2) {
-            resultText = "DRAW"
+            statusText = "DRAW"
         } else {
-            resultText = win ? "YOU WIN" : "YOU LOSE"
+            statusText = win ? "YOU WIN" : "YOU LOSE"
         }
 
         gameInfoStore.set({
@@ -314,22 +329,36 @@
     }
 </script>
 
-<main class="m-5">
-    <h1 class="text-4xl">{ resultText }</h1> { errorText }
+<main class="flex flex-col md:flex-row h-[100dvh] overflow-hidden">
+  <!-- Left: Game board -->
+  <section class="flex-1 p-4 sm:p-6 flex flex-col items-center justify-center overflow-auto">
+    <div class="h-5 mb-1">
+        {#if errorText}
+            <p class="text-error text-center text-sm">{errorText}</p>
+        {/if}
+    </div>
 
-    <canvas 
-        bind:this={ canvas }
-        on:mousedown={ mouseDown }
-        on:mousemove={ mouseMove }
-        on:mouseup={ mouseUp }
-        on:mouseleave={ mouseLeave }
-        on:wheel|preventDefault={ mouseWheel }
+
+    <h1 class="text-4xl mb-2 text-center">{statusText}</h1>
+
+    <div class="w-full max-w-md aspect-square">
+      <canvas
+        bind:this={canvas}
+        on:mousedown={mouseDown}
+        on:mousemove={mouseMove}
+        on:mouseup={mouseUp}
+        on:mouseleave={mouseLeave}
+        on:wheel|preventDefault={mouseWheel}
         on:contextmenu|preventDefault
+        class="w-full h-full"
+      ></canvas>
+    </div>
 
-        class="mt-3 mb-3"
-        
-        width="600" height="600"
-    ></canvas>
+    <h1 class="text-4xl mt-4">{turnText}</h1>
+  </section>
 
-    <h1 class="text-4xl">{ turnText }</h1>
+  <!-- Right: Chat or placeholder -->
+  <section class="hidden md:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-base-300 p-4 sm:p-6 overflow-y-auto">
+    <h2 class="text-3xl font-semibold mb-4">💬 Chat (Coming soon)</h2>
+  </section>
 </main>
