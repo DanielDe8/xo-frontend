@@ -43,8 +43,8 @@
     var lastTouchDistance = 0
     var lastTouchCenter = null
     var isTouchPanning = false
-    let touchStartTime = 0
-    let touchStartPos = { x: 0, y: 0 }
+    var touchStartTime = 0
+    var touchStartPos = { x: 0, y: 0 }
 
     let canvas
     let ctx

@@ -2,7 +2,6 @@ import { goto } from "$app/navigation"
 import { gameInfoStore } from "$lib/stores"
 
 const SERVER_URL = "https://xo-r.duckdns.org:9201"
-// const SERVER_URL = "http://localhost:9201"
 // const SERVER_URL = "http://192.168.1.209:9201"
 
 function API_METHOD(method) {
