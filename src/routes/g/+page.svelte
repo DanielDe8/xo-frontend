@@ -405,37 +405,34 @@
 
 <main class="flex flex-col md:flex-row h-[100dvh] overflow-hidden">
   <!-- Left: Game board -->
-  <section class="flex-1 p-4 sm:p-6 flex flex-col items-center justify-center overflow-auto">
-    <div class="h-5 mb-1">
+    <section class="flex-1 p-4 sm:p-6 flex flex-col items-center overflow-auto">
+        <h1 class="text-4xl mb-2 text-center">{statusText}</h1>
+
+        <div class="w-full max-w-md aspect-square">
+            <canvas
+            bind:this={canvas}
+            on:mousedown={mouseDown}
+            on:mousemove={mouseMove}
+            on:mouseup={mouseUp}
+            on:mouseleave={mouseLeave}
+            on:wheel|preventDefault={mouseWheel}
+            on:contextmenu|preventDefault
+            on:touchstart|preventDefault={touchStart}
+            on:touchmove|preventDefault={touchMove}
+            on:touchend|preventDefault={touchEnd}
+            class="w-full h-full"
+            ></canvas>
+        </div>
+
+        <h1 class="text-4xl mt-4">{turnText}</h1>
+
         {#if errorText}
             <p class="text-error text-center text-sm">{errorText}</p>
         {/if}
-    </div>
+    </section>
 
-
-    <h1 class="text-4xl mb-2 text-center">{statusText}</h1>
-
-    <div class="w-full max-w-md aspect-square">
-      <canvas
-        bind:this={canvas}
-        on:mousedown={mouseDown}
-        on:mousemove={mouseMove}
-        on:mouseup={mouseUp}
-        on:mouseleave={mouseLeave}
-        on:wheel|preventDefault={mouseWheel}
-        on:contextmenu|preventDefault
-        on:touchstart|preventDefault={touchStart}
-        on:touchmove|preventDefault={touchMove}
-        on:touchend|preventDefault={touchEnd}
-        class="w-full h-full"
-      ></canvas>
-    </div>
-
-    <h1 class="text-4xl mt-4">{turnText}</h1>
-  </section>
-
-  <!-- Right: Chat or placeholder -->
-  <section class="hidden md:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-base-300 p-4 sm:p-6 overflow-y-auto">
-    <h2 class="text-3xl font-semibold mb-4">💬 Chat (Coming soon)</h2>
-  </section>
+    <!-- Right: Chat or placeholder -->
+    <section class="hidden md:block w-full md:w-1/2 border-t md:border-t-0 md:border-l border-base-300 p-4 sm:p-6 overflow-y-auto">
+        <h2 class="text-3xl font-semibold mb-4">💬 Chat (Coming soon)</h2>
+    </section>
 </main>
