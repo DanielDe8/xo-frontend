@@ -4,7 +4,7 @@
 	import { onMount } from "svelte"
 	import { get } from "svelte/store"
 	import { goto } from "$app/navigation"
-    import { SERVER_URL } from "$lib/util"
+    import { SERVER_URL, getTouchCenter, getTouchDistance } from "$lib/util"
     import { gameInfoStore } from "$lib/stores"
     import xImgSrc from "$lib/assets/x.svg"
     import oImgSrc from "$lib/assets/o.svg"
@@ -40,6 +40,12 @@
     var wasDragging = false
     var dragStart = { x: 0, y: 0 }
 
+    var lastTouchDistance = 0
+    var lastTouchCenter = null
+    var isTouchPanning = false
+    let touchStartTime = 0
+    let touchStartPos = { x: 0, y: 0 }
+
     let canvas
     let ctx
 
@@ -66,9 +72,9 @@
         ctx = canvas.getContext("2d")
 
         requestAnimationFrame(() => {
-            resizeCanvasToDisplaySize();
-            drawAll();
-        });
+            resizeCanvasToDisplaySize()
+            drawAll()
+        })
 
         X_IMG.src = xImgSrc
         O_IMG.src = oImgSrc
@@ -95,15 +101,15 @@
             }))
         }
 
-        window.addEventListener("resize", resizeCanvasToDisplaySize);
-        return () => window.removeEventListener("resize", resizeCanvasToDisplaySize);
+        window.addEventListener("resize", resizeCanvasToDisplaySize)
+        return () => window.removeEventListener("resize", resizeCanvasToDisplaySize)
     })
 
     function resizeCanvasToDisplaySize() {
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width;
-        canvas.height = rect.height;
-        drawAll();
+        const rect = canvas.getBoundingClientRect()
+        canvas.width = rect.width
+        canvas.height = rect.height
+        drawAll()
     }
 
     function mouseDown(e) {
@@ -164,6 +170,74 @@
         const gameY = Math.floor((y - offsetY) / scale / CELL_S)
 
         socket.emit("click", JSON.stringify({ x: gameX, y: gameY }))
+    }
+
+    function touchStart(e) {
+        if (e.touches.length === 1) {
+            isTouchPanning = true
+            const x = e.touches[0].clientX - canvas.getBoundingClientRect().left
+            const y = e.touches[0].clientY - canvas.getBoundingClientRect().top
+            dragStart = { x, y }
+            touchStartPos = { x, y }
+            touchStartTime = Date.now()
+        } else if (e.touches.length === 2) {
+            isTouchPanning = false
+            lastTouchDistance = getTouchDistance(e.touches)
+            lastTouchCenter = getTouchCenter(e.touches)
+        }
+    }
+    function touchMove(e) {
+        if (e.touches.length === 1 && isTouchPanning) {
+            const x = e.touches[0].clientX - canvas.getBoundingClientRect().left
+            const y = e.touches[0].clientY - canvas.getBoundingClientRect().top
+
+            offsetX += x - dragStart.x
+            offsetY += y - dragStart.y
+
+            dragStart = { x, y }
+
+            drawAll()
+        } else if (e.touches.length === 2) {
+            // Pinch zoom
+            const currentDistance = getTouchDistance(e.touches)
+            const zoom = currentDistance / lastTouchDistance
+
+            const newScale = scale * zoom
+
+            if (newScale < MIN_SCALE || newScale > MAX_SCALE) return
+
+            const rect = canvas.getBoundingClientRect()
+            const center = getTouchCenter(e.touches)
+
+            const mouseX = (center.x - rect.left - offsetX) / scale
+            const mouseY = (center.y - rect.top - offsetY) / scale
+
+            offsetX -= mouseX * (zoom - 1) * scale
+            offsetY -= mouseY * (zoom - 1) * scale
+
+            scale = newScale
+
+            lastTouchDistance = currentDistance
+            lastTouchCenter = center
+
+            drawAll()
+        }
+    }
+    function touchEnd(e) {
+        if (e.touches.length === 0) {
+            const duration = Date.now() - touchStartTime
+            const moved = Math.hypot(dragStart.x - touchStartPos.x, dragStart.y - touchStartPos.y)
+
+            if (duration < 300 && moved < 10) {
+                handleClick(touchStartPos.x, touchStartPos.y)
+            }
+
+            isTouchPanning = false
+        } else if (e.touches.length === 1) {
+            isTouchPanning = true
+            dragStart.x = e.touches[0].clientX - canvas.getBoundingClientRect().left
+            dragStart.y = e.touches[0].clientY - canvas.getBoundingClientRect().top
+        }
     }
 
     function handleGameState(newGameStateString) {
@@ -281,8 +355,8 @@
                     }
                     break
                 case -1:
-                    const myChar = playerNumber == gameState.xNumber ? 'X' : 'O';
-                    const opponentChar = playerNumber == gameState.xNumber ? 'O' : 'X';
+                    const myChar = playerNumber == gameState.xNumber ? 'X' : 'O'
+                    const opponentChar = playerNumber == gameState.xNumber ? 'O' : 'X'
 
                     statusText = `${myChar}: ${username} vs ${opponentChar}: ${opponentUsername}`
                     break
@@ -293,7 +367,7 @@
 
             const isSideX = gameState.xNumber == playerNumber
 
-            turnText = (gameState.xTurn == isSideX) ? "YOUR TURN" : "OPPONENTS TURN"
+            turnText = (gameState.xTurn == isSideX) ? "YOUR TURN" : "OPPONENT'S TURN"
         } else {
             switch (gameInfo.type) {
                 case "create":
@@ -350,6 +424,9 @@
         on:mouseleave={mouseLeave}
         on:wheel|preventDefault={mouseWheel}
         on:contextmenu|preventDefault
+        on:touchstart|preventDefault={touchStart}
+        on:touchmove|preventDefault={touchMove}
+        on:touchend|preventDefault={touchEnd}
         class="w-full h-full"
       ></canvas>
     </div>

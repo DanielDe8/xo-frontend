@@ -24,4 +24,23 @@ function joinGame(type, gameCode = null) {
     goto("/g")
 }
 
-export { SERVER_URL, API_METHOD, isGameCodeValid, joinGame }
+function getTouchDistance(touches) {
+    if (touches.length < 2) return 0
+    const [t1, t2] = touches
+    const dx = t2.clientX - t1.clientX
+    const dy = t2.clientY - t1.clientY
+
+    return Math.sqrt(dx * dx + dy * dy)
+}
+
+function getTouchCenter(touches) {
+    if (touches.length < 2) return null
+    const [t1, t2] = touches
+
+    return {
+        x: (t1.clientX + t2.clientX) / 2,
+        y: (t1.clientY + t2.clientY) / 2,
+    }
+}
+
+export { SERVER_URL, API_METHOD, isGameCodeValid, joinGame, getTouchDistance, getTouchCenter }
