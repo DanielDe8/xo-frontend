@@ -1,12 +1,22 @@
 <script>
     import LoginForm from "$lib/components/LoginForm.svelte"
-
+	import RegisterForm from "$lib/components/RegisterForm.svelte"
     import { onMount } from "svelte"
     import { get } from "svelte/store"
 	import { goto } from "$app/navigation"
     import { SERVER_URL, API_METHOD, isGameCodeValid, joinGame } from "$lib/util.js"
     import { userStore, gameInfoStore } from "$lib/stores.js"
-	import join from "daisyui/utilities/join"
+
+    let useLogin         // for the component
+    let useRegister      // for the component
+    let showLogin = true // for the UI
+
+    $: if (useLogin) { 
+        showLogin = true
+    }
+    $: if (useRegister) {
+        showLogin = false
+    }
 
     let isLoaded = false
     let recentGames = []
@@ -105,7 +115,11 @@
         {:else}
             <div class="flex flex-col justify-center items-center h-full">
                 <div class="max-w-md mx-auto">
-                    <LoginForm />
+                    {#if showLogin}
+                        <LoginForm bind:useRegister/>
+                    {:else}
+                        <RegisterForm bind:useLogin/>
+                    {/if}
                 </div>
             </div>
         {/if}

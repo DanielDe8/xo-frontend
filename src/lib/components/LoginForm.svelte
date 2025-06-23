@@ -3,6 +3,8 @@
     import { SERVER_URL, API_METHOD } from "$lib/util.js"
     import { userStore } from "$lib/stores"
 
+    export let useRegister
+
     let loginError = ""
 
     function login(e) {
@@ -40,7 +42,7 @@
 
     <p class="text-sm text-center mt-4">
         Don't have an account?
-        <a href="/register" class="link link-hover text-accent">Register</a>
+        <button on:click={ () => { useRegister = false; useRegister = true } /* force update */ } class="link link-hover text-accent">Register</button>
     </p>
 
     <span class="text-error text-sm block text-center mt-2">{ loginError }</span>
