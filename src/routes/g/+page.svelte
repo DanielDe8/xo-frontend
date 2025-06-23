@@ -394,6 +394,8 @@
             statusText = "DRAW"
         } else {
             statusText = win ? "YOU WIN" : "YOU LOSE"
+
+            if (gameState.playerDisconnected) statusText = `${statusText} (${opponentUsername} DISCONNECTED)`
         }
 
         gameInfoStore.set({
