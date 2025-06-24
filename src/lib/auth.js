@@ -6,6 +6,8 @@ async function authenticate() {
     if (res.status === 200) {
         const data = await res.json()
         userStore.set(data)
+    } else {
+        userStore.set(null)
     }
 }
 
