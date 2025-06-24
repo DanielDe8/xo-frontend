@@ -25,7 +25,9 @@
 </script>
 
 <div class="card max-w-md mx-auto bg-base-200 shadow-lg p-8 mt-12">
-    <Profile { ...$userStore }/>
+    <div class="mb-4">
+        <Profile { ...$userStore }/>
+    </div>
 
     <button class="btn btn-error w-full" on:click={ logout }>
         Log Out
