@@ -3,7 +3,7 @@
 	import { error } from "@sveltejs/kit"
 	import { onMount } from "svelte"
 	import { get } from "svelte/store"
-	import { goto } from "$app/navigation"
+	import { beforeNavigate, goto } from "$app/navigation"
     import { SERVER_URL, getTouchCenter, getTouchDistance } from "$lib/util"
     import { gameInfoStore } from "$lib/stores"
     import xImgSrc from "$lib/assets/x.svg"
@@ -103,6 +103,10 @@
 
         window.addEventListener("resize", resizeCanvasToDisplaySize)
         return () => window.removeEventListener("resize", resizeCanvasToDisplaySize)
+    })
+
+    beforeNavigate(() => {
+        socket.disconnect()
     })
 
     function resizeCanvasToDisplaySize() {
