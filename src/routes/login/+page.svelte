@@ -1,5 +1,6 @@
 <script>
     import LoginForm from "$lib/components/LoginForm.svelte"
+    import { get } from "svelte/store"
     import { goto } from "$app/navigation"
     import { onMount } from "svelte"
 
