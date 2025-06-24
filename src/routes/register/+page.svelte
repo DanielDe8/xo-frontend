@@ -1,7 +1,9 @@
 <script>
     import RegisterForm from "$lib/components/RegisterForm.svelte"
-    import { goto } from "$app/navigation"
     import { onMount } from "svelte"
+    import { get } from "svelte/store"
+    import { goto } from "$app/navigation"
+    import { userStore } from "$lib/stores"
 
     let useLogin
 
