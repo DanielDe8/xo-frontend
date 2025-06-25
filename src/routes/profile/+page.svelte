@@ -5,6 +5,7 @@
 	import { goto } from "$app/navigation"
     import { userStore } from "$lib/stores"
     import { SERVER_URL, API_METHOD } from "$lib/util"
+	import { authenticate } from "$lib/auth"
 
     let logoutError = ""
 
@@ -20,6 +21,7 @@
     }
 
     onMount(() => {
+        authenticate()
         if (!get(userStore)) goto("/login")
     })
 </script>
