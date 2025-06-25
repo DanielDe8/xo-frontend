@@ -41,6 +41,8 @@
                     recentGames = data
                     isLoaded = true
                 })
+            } else if (res.status == 401) {
+                userStore.set(null)
             } else {
                 console.error("Failed to load recent games:", res.status, res.statusText)
                 isLoaded = true
