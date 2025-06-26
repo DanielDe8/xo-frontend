@@ -12,7 +12,7 @@
 
     let iWon = myNumber == xNumber ? (status == 0) : (status == 1)
 
-    let typeText = (type == "g" ? "Random" : (type == "f" ? "Friendlu" : "ranked"))
+    let typeText = (type == "g" ? "Random" : (type == "f" ? "Friendly" : "ranked"))
     let disconnectText = playerDisconnected ? "Yes" : "No"
 </script>
 
