@@ -1,6 +1,7 @@
 <script>
     import LoginForm from "$lib/components/LoginForm.svelte"
 	import RegisterForm from "$lib/components/RegisterForm.svelte"
+    import GameCard from "$lib/components/GameCard.svelte"
     import { onMount } from "svelte"
     import { get } from "svelte/store"
 	import { goto } from "$app/navigation"
@@ -100,13 +101,8 @@
                 {#if recentGames.length > 0}
                     <h2 class="text-3xl font-semibold mb-4">Recent Games</h2>
 
-                    {#each recentGames as { player1, player2, status, createdAt }}
-                        <div class="card bg-base-200 mb-4 p-4 shadow-md">
-                            <h3 class="text-xl font-semibold mb-2">Recent Game</h3>
-                            <p class="text-sm text-gray-600">Players: {player1} vs {player2}</p>
-                            <p class="text-sm text-gray-600">Status: {status}</p>
-                            <p class="text-sm text-gray-400">Created at: {new Date(createdAt).toLocaleString()}</p>
-                        </div>
+                    {#each recentGames as recentGame (recentGame._id)}
+                        <GameCard { ...recentGame }/>
                     {/each}
                 {:else}
                     <h2 class="text-3xl font-semibold mb-4">No Recent Games</h2>
