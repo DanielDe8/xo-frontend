@@ -303,7 +303,7 @@
     }
 
 
-    function drawGame() {
+    function drawStones() {
         if (gameState.last.exists) {
             ctx.fillStyle = LAST_COLOR
             ctx.fillRect(gameState.last.x * CELL_S, gameState.last.y * CELL_S, CELL_S, CELL_S)
@@ -342,7 +342,7 @@
         )
 
         if (gameState) {
-            drawGame()
+            drawStoneses()
 
             switch (gameState.status) {
                 case -2:
