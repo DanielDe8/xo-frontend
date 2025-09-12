@@ -1,7 +1,7 @@
 <script>
     import LoginForm from "$lib/components/LoginForm.svelte"
 	import RegisterForm from "$lib/components/RegisterForm.svelte"
-    import GameCard from "$lib/components/GameCard.svelte"
+    import RecentGameCard from "$lib/components/RecentGameCard.svelte"
     import { onMount } from "svelte"
     import { get } from "svelte/store"
 	import { goto } from "$app/navigation"
@@ -102,7 +102,7 @@
                     <h2 class="text-3xl font-semibold mb-4">Recent Games</h2>
 
                     {#each recentGames as recentGame (recentGame._id)}
-                        <GameCard { ...recentGame }/>
+                        <RecentGameCard { ...recentGame }/>
                     {/each}
                 {:else}
                     <h2 class="text-3xl font-semibold mb-4">No Recent Games</h2>
