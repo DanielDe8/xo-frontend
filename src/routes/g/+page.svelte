@@ -346,7 +346,7 @@
         )
 
         if (gameState) {
-            drawStoneses()
+            drawStones()
 
             switch (gameState.status) {
                 case -2:
