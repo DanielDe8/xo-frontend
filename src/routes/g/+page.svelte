@@ -313,14 +313,18 @@
             // ctx.fillStyle = "blue"
             // ctx.fillRect((xx.x + 0.25) * CELL_S, (xx.y + 0.25) * CELL_S, CELL_S / 2, CELL_S / 2)
 
-            ctx.drawImage(X_IMG, (xx.x + (1 - STONE_SCALE) / 2) * CELL_S, (xx.y + (1 - STONE_SCALE) / 2) * CELL_S, CELL_S * STONE_SCALE, CELL_S * STONE_SCALE)
+            drawStone(xx.x, xx.y, X_IMG)
         }
 
         for (const o of gameState.os) { 
             // ctx.fillStyle = "red"
             // ctx.fillRect((o.x + 0.25) * CELL_S, (o.y + 0.25) * CELL_S, CELL_S / 2, CELL_S / 2)
 
-            ctx.drawImage(O_IMG, (o.x + (1 - STONE_SCALE) / 2) * CELL_S, (o.y + (1 - STONE_SCALE) / 2) * CELL_S, CELL_S * STONE_SCALE, CELL_S * STONE_SCALE)
+            drawStone(o.x, o.y, O_IMG)
+        }
+
+        function drawStone(x, y, img) {
+            ctx.drawImage(img, (x + (1 - STONE_SCALE) / 2) * CELL_S, (y + (1 - STONE_SCALE) / 2) * CELL_S, CELL_S * STONE_SCALE, CELL_S * STONE_SCALE)
         }
     }
 
