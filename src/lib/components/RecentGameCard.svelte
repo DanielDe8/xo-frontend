@@ -77,6 +77,7 @@
 		    ctx.fillRect(0, 0, W, H)
 
             drawStones()
+            drawWinLine()
             drawGrid()
 
             function drawGrid() {
@@ -110,6 +111,23 @@
                 function drawStone(x, y, img) {
                     ctx.drawImage(img, (x - minX + padding + (1 - STONE_SCALE) / 2) * cellSize, (y - minY + padding + (1 - STONE_SCALE) / 2) * cellSize, cellSize * STONE_SCALE, cellSize * STONE_SCALE)
                 }
+            }
+
+            function drawWinLine() {
+                ctx.save();
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(
+                    (winLine.a.x - minX + padding + 0.5) * cellSize,
+                    (winLine.a.y - minY + padding + 0.5) * cellSize
+                );
+                ctx.lineTo(
+                    (winLine.b.x - minX + padding + 0.5) * cellSize,
+                    (winLine.b.y - minY + padding + 0.5) * cellSize
+                );
+                ctx.stroke();
+                ctx.restore();
             }
         }
     })

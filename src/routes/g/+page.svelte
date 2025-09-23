@@ -370,6 +370,7 @@
                     break
                 default:
                     gameOver()
+                    drawWinLine()
                     break
             }
 
@@ -410,6 +411,25 @@
             type: "home",
             gameCode: "",
         })
+    }
+
+    function drawWinLine() {
+        const { a, b } = gameState.winLine
+
+        ctx.save();
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 4 / scale; // scale line width so it looks consistent
+        ctx.beginPath();
+        ctx.moveTo(
+            (a.x + 0.5) * CELL_S,
+            (a.y + 0.5) * CELL_S
+        );
+        ctx.lineTo(
+            (b.x + 0.5) * CELL_S,
+            (b.y + 0.5) * CELL_S
+        );
+        ctx.stroke();
+        ctx.restore();
     }
 </script>
 
