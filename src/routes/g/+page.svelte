@@ -436,7 +436,7 @@
 <main class="flex flex-col md:flex-row h-[100dvh] overflow-hidden">
   <!-- Left: Game board -->
     <section class="flex-1 p-4 sm:p-6 flex flex-col items-center overflow-auto">
-        <h1 class="text-4xl mb-2 text-center">{statusText}</h1>
+        <h1 class="text-3xl mb-2 text-center">{statusText}</h1>
 
         <div class="w-full max-w-md aspect-square">
             <canvas
@@ -454,7 +454,7 @@
             ></canvas>
         </div>
 
-        <h1 class="text-4xl mt-4">{turnText}</h1>
+        <h1 class="text-3xl mt-4">{turnText}</h1>
 
         {#if errorText}
             <p class="text-error text-center text-sm">{errorText}</p>
