@@ -369,7 +369,7 @@
                     const myChar = playerNumber == gameState.xNumber ? 'X' : 'O'
                     const opponentChar = playerNumber == gameState.xNumber ? 'O' : 'X'
 
-                    statusText = `${myChar}: ${username} vs ${opponentChar}: ${opponentUsername}`
+                    statusText = `${myChar}: You vs ${opponentChar}: ${opponentUsername}`
                     break
                 default:
                     gameOver()
