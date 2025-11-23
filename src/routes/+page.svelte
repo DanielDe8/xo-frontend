@@ -59,6 +59,11 @@
         <h1 class="text-5xl font-bold text-center mb-6">Play <span class="text-6xl">xo</span></h1>
 
         <div class="card bg-base-200 p-6 shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">🎲 Random Match</h2>
+            <button on:click={ playRandom } class="btn btn-info w-full">Play Random</button>
+        </div>
+
+        <div class="card bg-base-200 p-6 shadow-md">
             <h2 class="text-2xl font-semibold mb-4">🎮 Friendly Match</h2>
             <div class="flex flex-wrap gap-2 items-center mb-3">
                 <input bind:value={ gameCodeInput } class="input input-bordered flex-1" type="text" placeholder="Enter game code..." />
@@ -84,11 +89,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="card bg-base-200 p-6 shadow-md">
-            <h2 class="text-2xl font-semibold mb-4">🎲 Random Match</h2>
-            <button on:click={ playRandom } class="btn btn-info w-full">Play Random</button>
         </div>
 
         <div class="pb-[calc(env(safe-area-inset-bottom,0px)+4rem)]"></div>
