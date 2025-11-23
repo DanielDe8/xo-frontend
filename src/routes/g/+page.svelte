@@ -348,6 +348,9 @@
         if (gameState) {
             drawStones()
 
+            const isSideX = gameState.xNumber == playerNumber
+            turnText = (gameState.xTurn == isSideX) ? "YOUR TURN" : "OPPONENT'S TURN"
+
             switch (gameState.status) {
                 case -2:
                     switch (gameInfo.type) {
@@ -373,10 +376,6 @@
                     drawWinLine()
                     break
             }
-
-            const isSideX = gameState.xNumber == playerNumber
-
-            turnText = (gameState.xTurn == isSideX) ? "YOUR TURN" : "OPPONENT'S TURN"
         } else {
             switch (gameInfo.type) {
                 case "create":
@@ -403,6 +402,7 @@
             statusText = "DRAW"
         } else {
             statusText = win ? "YOU WIN" : "YOU LOSE"
+            turnText = ""
 
             if (gameState.playerDisconnected) statusText = `${statusText} (${opponentUsername} DISCONNECTED)`
         }
